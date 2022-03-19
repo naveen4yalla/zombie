@@ -5,13 +5,15 @@ import "./zombiehelper.sol";
 contract ZombieAttack is ZombieHelper {
   uint randNonce = 0;
   uint attackVictoryProbability = 70;
+  uint attackFee = 0.001 ether;
 
   function randMod(uint _modulus) internal returns(uint) {
     randNonce = randNonce.add(1);
     return uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % _modulus;
   }
 
-  function attack(uint _zombieId, uint _targetId) external onlyOwnerOf(_zombieId) {
+  function attack(uint _zombieId, uint _targetId) external payable onlyOwnerOf(_zombieId) {
+    require(msg.value == attackFee);
     Zombie storage myZombie = zombies[_zombieId];
     Zombie storage enemyZombie = zombies[_targetId];
     uint rand = randMod(100);

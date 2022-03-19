@@ -107,7 +107,7 @@
                 ></path>
               </g>
             </svg>
-            <span class="link-text">Marketplace</span>
+            <span class="link-text">Attack</span>
           </a>
         </li>
   
@@ -165,7 +165,7 @@
                 ></path>
               </g>
             </svg>
-            <span class="link-text">Help</span>
+            <span class="link-text">Transfer</span>
           </a>
         </li>
   
@@ -287,7 +287,7 @@
           </div>
           <div class="flex-container-play">
             <h1 style="color: white;"  id="feed-para"></h1>
-            <div style="height:800px;max-height:100%;color: white; width: 700px; clear:both; background-color: black;border: 1rem;border-color: bisque;">
+            <div style="height:800px;max-height:100%;color: white; width:max-content; clear:both; background-color: black;border: 1rem;border-color: bisque;">
               <div id="txStatus"></div>
             
               <div id="zombies"></div>
@@ -301,11 +301,11 @@
                     <label for="" class="label"> </label>
                   </div>
                     <div class="form-box">
-                    <input id="feed-human-id" class="form-input" type="text" placeholder="Please enter Opponent ZombieId">
+                    <input id="feed-human-id" class="form-input" type="text" placeholder="Please enter the HumanId">
                       <label for="" class="label"></label>
                   </div>
                   <div class="form-box">
-                    <input id="feed-name-id" class="form-input" type="text" placeholder="Please enter Opponent ZombieId">
+                    <input id="feed-name-id" class="form-input" type="text" placeholder="Please enter the new name for Zombie ">
                       <label for="" class="label"></label>
                   </div>
                   <button onclick="processFeeding()"  id="feedBtn">Feed</button>
@@ -396,25 +396,19 @@
     
     <div class="menu-content Marketplace ">Marketplace
 
-      <div class="flex-marketplace">
-        <section>
-          <img style="width: 200px;
-          height:200" src="images/img1.png" alt="description" />
-          <h2>Product</h2>
-          <p>Description</p>
-          <aside>
-            <ul class="ul-marketplace">
-              <li>Spec</li>
-              <li>Spec</li>
-            </ul>
-            <button>Button</button>
-          </aside>
-        </section>
-        <!-- Rest of items... -->
+      <div style="display: block;" class="flex-container-play">
+      <h1>Attack Time</h1>
+      <div style="display: block; position: static" class="form-box">
+        <input style="display: block;position: static;" id="Attack-id" class="form-input" type="text" placeholder="ZombieId">
+        <label style="display: block;position: static;" for="" class="label"> </label>
       </div>
-
-
-
+        <div style="display: block;position: static" class="form-box">
+        <input style="display: block; position: static;" id="Attacker-id" class="form-input" type="text" placeholder="AttackerId">
+          <label style="display: block; position: static;" for="" class="label"></label>
+      </div>
+      <button onclick="attack()"  id="AttackBtn">Attack</button>
+      <div id="zombies"></div>
+      </div>
 
 
 
@@ -481,7 +475,21 @@
     
     
     
-    <div class="menu-content Help">Help</div>
+    <div class="menu-content Help">
+      <div style="display: block;" class="flex-container-play">
+        <h1>Transfer your Zombies</h1>
+        <div style="display: block; position: static" class="form-box">
+          <input style="display: block;position: static;" id="transfer-id" class="form-input" type="text" placeholder="Enter the ID for transfer">
+          <label style="display: block;position: static;" for="" class="label"> </label>
+        </div>
+          <div style="display: block;position: static" class="form-box">
+          <input style="display: block; position: static;" id="new-id" class="form-input" type="text" placeholder="Enter the addrees">
+            <label style="display: block; position: static;" for="" class="label"></label>
+        </div>
+        <button onclick="transfer()"  id="AttackBtn">Transfer</button>
+        <div id="zombies"></div>
+        </div>
+    </div>
 
   </main>
 
@@ -546,16 +554,20 @@ window.location.reload();
 
 
 createzombieButton.addEventListener('click', () => {
+  $("#txStatus").empty();
   var temp1 = document.getElementById("myBtn")
  temp1.style.display = "none"
   var temp = document.getElementById("feed-para")
   temp.innerHTML="Create Zombie"
   let name = prompt("Please enter your Zombie name:", userAccount);
   createRandomZombie(name);
+  getZombiesByOwner(userAccount)
+.then(displayZombies);
 
 });
 
 showZombieButton.addEventListener('click', () => {
+  $("#txStatus").empty();
   var temp1 = document.getElementById("myBtn")
  temp1.style.display = "none"
  var temp = document.getElementById("feed-para")
@@ -566,15 +578,25 @@ getZombiesByOwner(userAccount)
 });
 
 levelupButton.addEventListener('click', () => {
+  $("#txStatus").empty();
   var temp1 = document.getElementById("myBtn")
- temp1.style.display = "none"
+  temp1.style.display = "none"
   var temp = document.getElementById("feed-para")
   temp.innerHTML="Level your Zombies"
 let level = prompt("Please enter your zombie id:",);
-levelUp(parseInt(level))
+if (level!=null){
+  levelUp(parseInt(level))
+  getZombiesByOwner(userAccount)
+.then(displayZombies);
+}
+else{
+
+}
+
 
 });
 feedHumanButton.addEventListener('click', () => {
+  $("#txStatus").empty();
   var temp = document.getElementById("feed-para")
   temp.innerHTML="Feed On Humans"
   getAllHumans(userAccount)
@@ -607,10 +629,17 @@ function processFeeding(){
   var temp3 =document.getElementById('feed-name-id').value
   feedOnHumans(temp1,temp2,temp3)
 }
-function Attack(){
-  var temp1 =document.getElementById('feed-zombie-id').value
-  var temp2 = document.getElementById('feed-human-id').value
+function attack(){
+  var temp1 =document.getElementById('Attack-id').value
+  var temp2 = document.getElementById('Attacker-id').value
   console.log(temp1,temp2)
+  attackOnOtherZombies(temp1,temp2)
+}
+function transfer(){
+  var temp1 = document.getElementById("transfer-id").value
+  var temp2 = document.getElementById("new-id").value
+  console.log(userAccount,temp1,temp2)
+ transferZombie(userAccount,temp1,temp2)
 }
 
 

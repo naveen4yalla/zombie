@@ -343,3 +343,18 @@ main {
   opacity:1;
   background-color:#fff;
 }
+
+
+.column-image {
+  float: left;
+  width: 500px;
+  padding: 10px;
+  /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row-image:after {
+  content: "";
+  display: table;
+  clear: both;
+}

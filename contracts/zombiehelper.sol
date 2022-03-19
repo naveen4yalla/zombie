@@ -54,7 +54,7 @@ contract ZombieHelper is ZombieFeeding {
     return result;
   }
   function getAllHumans(address _owner) external view returns(uint[]){
-    uint[] memory result = new uint[](humans.length);
+    uint[] memory result = new uint[](humanZombiecount);
     uint counter =0;
     for (uint i = 0; i < humans.length; i++) {
       if (humanToZombie[i] == address(0x0)){

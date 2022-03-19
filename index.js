@@ -1,6 +1,6 @@
 
 
-const CONTRACT_ADDRESS = "0x15DE32f04aAFB570F6FfEf8f8Be39A63385302d9"
+const CONTRACT_ADDRESS = "0x017B449E3D1643Bf5b197DDfF8AAF371FC645D32"
 //configuration.networks['5777'].address;
 const CONTRACT_ABI = cryptoZombiesABI;
 
@@ -31,9 +31,10 @@ function displayZombies(ids) {
        getZombieDetails(id)
          .then(function (zombie) {
 
-           console.log(zombie)
-           $("#zombies").append(`<div class="zombie">
-             <ul>
+          var temp = zombie.dna.slice(-1);
+           $("#zombies").append(`<div class="zombie row-image">
+           <div class ="column-image">
+           <ul>
                <li>ID:${zombie.id}</li>
                <li class="${zombie.id}">Name: ${zombie.name}</li>
                <button onclick="editName(${zombie.id},'name')" type="submit" class="${zombie.id}">Edit</button>
@@ -46,11 +47,16 @@ function displayZombies(ids) {
                <li>Losses: ${zombie.lossCount}</li>
                <li>Ready Time: ${zombie.readyTime}</li>
              </ul>
+             </div>
+             <div class ="column-image">
+             <img src="images/${temp}.jpg" alt="Paris" width="200" height="230">
+             </div>
            </div>`);
          });
      }
    }
    function displayHumans(ids) {
+    console.log(ids);
     $("#zombies").empty();
     for (id of ids) {
 
@@ -212,7 +218,7 @@ function createRandomZombie(name) {
   function feedOnHumans(a,b,c){
     $("#txStatus").empty();
     cryptoZombies.methods.feedOnHumans(parseInt(a),parseInt(b),String(c))
-    .send({ from: userAccount })
+    .send({ from: userAccount, value: web3.utils.toWei("0.001", "ether") })
     .on("receipt", function (receipt) {
       $("#txStatus").text("New Zombie Added");
     })
@@ -221,5 +227,33 @@ function createRandomZombie(name) {
     });
 
   }
+  function attackOnOtherZombies(a,b){
+    $("#txStatus").empty();
+    cryptoZombies.methods.attack(parseInt(a),parseInt(b))
+    .send({ from: userAccount, value: web3.utils.toWei("0.001", "ether") })
+    .on("receipt", function (receipt) {
+     $("#txStatus").text("Attack success");
+    })
+    .on("error", function (error) {
+      $("#txStatus").text(error);
+    });
+  //  var id = getZombiesByOwner(parseInt(a))
+   // $("#zombieswin").empty()
+   // $("#zombieswin").append(`<div class="zombie">
+   // <ul>
+    //  <li>Wins: ${id.winCount}</li>
+   // </ul>
+ // </div>`);
+  }
 
-  
+  function transferZombie(a,b,c){
+    $("#txStatus").empty();
+    cryptoZombies.methods.transferFrom(a,c,parseInt(b))
+    .send({ from: a, value: web3.utils.toWei("0.001", "ether") })
+    .on("receipt", function (receipt) {
+     $("#txStatus").text("Attack success");
+    })
+    .on("error", function (error) {
+      $("#txStatus").text(error);
+    });
+  }

@@ -25,13 +25,15 @@ contract ZombieFeeding is ZombieFactory {
     uint dna;
   }
   mapping (uint => address) public humanToZombie;
-  mapping (address => uint) public ownerZombieHumanCount;
+  uint public humanZombiecount=10;
   Human[] public humans;
+
   constructor() public{
    for (uint i = 0; i <10; i++) {
        uint rand = uint(keccak256(abi.encodePacked(i)));
        humans.push(Human(i,rand%(10**16)));
    }
+
   }
 
   modifier onlyOwnerOf(uint _zombieId) {
@@ -53,7 +55,7 @@ contract ZombieFeeding is ZombieFactory {
 
   function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) internal onlyOwnerOf(_zombieId) {
     Zombie storage myZombie = zombies[_zombieId];
-    require(_isReady(myZombie));
+   // require(_isReady(myZombie));
     _targetDna = _targetDna % dnaModulus;
     uint newDna = (myZombie.dna + _targetDna) / 2;
     if (keccak256(abi.encodePacked(_species)) == keccak256(abi.encodePacked("kitty"))) {
@@ -71,25 +73,25 @@ contract ZombieFeeding is ZombieFactory {
 
 
   function feedAndMutiplies(uint _zombieId, uint _targetDna , string _species ,string name,uint _humanId) internal onlyOwnerOf(_zombieId){
-     Zombie storage myZombie = zombies[_zombieId];
-     require(_isReady(myZombie));
-      uint newDna = (myZombie.dna + _targetDna) / 2;
+    Zombie storage myZombie = zombies[_zombieId];
+    //require(_isReady(myZombie));
+    uint newDna = (myZombie.dna + _targetDna) / 2;
     if (keccak256(abi.encodePacked(_species)) == keccak256(abi.encodePacked("humans"))) {
       newDna = newDna - newDna % 100 + 99;
-    }
+     }
      _createZombie(name, newDna);
      humanToZombie[_humanId] = msg.sender;
-     ownerZombieHumanCount[msg.sender] = ownerZombieHumanCount[msg.sender].add(1);
+    // ownerZombieHumanCount[msg.sender] = ownerZombieHumanCount[msg.sender].add(1);
+     humanZombiecount = humanZombiecount - 1;
      _triggerCooldown(myZombie);
 
 
   }
   function feedOnHumans(uint _zombieId ,uint _humanId,string name) external payable{
-    //require(msg.value == humanFee);
+    require(msg.value == humanFee);
     Human storage myHuman = humans[_humanId];
     feedAndMutiplies(_zombieId,myHuman.dna,"humans",name,myHuman.name);
-    
-  }
+    }
 
  //function feedOnHumans(uint _zombieId ,uint _humanId,string name) external payable{
   //  require(msg.value == humanFee);
