@@ -13,11 +13,13 @@
       href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap"
       rel="stylesheet"/>
 
- <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
-    <script language="javascript" type="text/javascript" src="cryptozombies_abi.js"></script>
-    <script  src="index.js"></script>
-    <meta charset="utf-8">
-  </head>
+      <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+      <script language="javascript" type="text/javascript" src="cryptozombies_abi.js"></script>
+      <script src='https://cdn.jsdelivr.net/npm/bignumber.js@9.0.2/bignumber.min.js'></script>
+      <script  src="index.js"></script>
+
+      <meta charset="utf-8">
+    </head>
   
   <body>
     <nav class="navbar">
@@ -276,11 +278,52 @@
                   <button class="levelupButton">Level Up</button>
                 </div>
               </div>
+             
+              <div ontouchstart="">
+                <div class="play-buttons">
+                  <button  class="feedHumanButton">Feed on Humans</button>
+                </div>
+              </div>
           </div>
           <div class="flex-container-play">
-            <div style="height:800px;max-height:100%; width: 700px; clear:both; background-color: yellow;">
+            <h1 style="color: white;"  id="feed-para"></h1>
+            <div style="height:800px;max-height:100%;color: white; width: 700px; clear:both; background-color: black;border: 1rem;border-color: bisque;">
               <div id="txStatus"></div>
+            
               <div id="zombies"></div>
+              <button style="display:none"  id="myBtn">Feed on Humans</button>
+              <div id="myModal" style="display:none" class="Attack-modal">
+
+                <div style="color: black;" class="Attack-modal-content">
+                 <h1>Feeding Time..</h1>
+                  <div class="form-box">
+                    <input id="feed-zombie-id" class="form-input" type="text" placeholder="Please enter your ZombieId">
+                    <label for="" class="label"> </label>
+                  </div>
+                    <div class="form-box">
+                    <input id="feed-human-id" class="form-input" type="text" placeholder="Please enter Opponent ZombieId">
+                      <label for="" class="label"></label>
+                  </div>
+                  <div class="form-box">
+                    <input id="feed-name-id" class="form-input" type="text" placeholder="Please enter Opponent ZombieId">
+                      <label for="" class="label"></label>
+                  </div>
+                  <button onclick="processFeeding()"  id="feedBtn">Feed</button>
+                  </div>
+             
+              </div>
+
+              
+
+
+
+
+
+
+
+           
+           
+           
             </div>
         </div>
     </div>
@@ -443,9 +486,14 @@
   </main>
 
 <script>
-  const showZombieButton = document.querySelector('.showZombieButton');
+const showZombieButton = document.querySelector('.showZombieButton');
 const createzombieButton = document.querySelector('.createzombieButton');
 const levelupButton = document.querySelector('.levelupButton');
+const feedHumanButton = document.querySelector('.feedHumanButton');
+const attackButon = document.querySelector('.attackButton');
+var modal = document.getElementById("myModal");
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close")[0];
   window.addEventListener('load', async () => {
 // Modern dapp browsers...
 if (window.ethereum) {
@@ -498,21 +546,74 @@ window.location.reload();
 
 
 createzombieButton.addEventListener('click', () => {
-createRandomZombie(userAccount);
+  var temp1 = document.getElementById("myBtn")
+ temp1.style.display = "none"
+  var temp = document.getElementById("feed-para")
+  temp.innerHTML="Create Zombie"
+  let name = prompt("Please enter your Zombie name:", userAccount);
+  createRandomZombie(name);
 
 });
 
 showZombieButton.addEventListener('click', () => {
+  var temp1 = document.getElementById("myBtn")
+ temp1.style.display = "none"
+ var temp = document.getElementById("feed-para")
+  temp.innerHTML="Zombies Owned By You"
 getZombiesByOwner(userAccount)
 .then(displayZombies);
 
 });
 
 levelupButton.addEventListener('click', () => {
-getZombiesByOwner(userAccount)
-.then(levelUp);
+  var temp1 = document.getElementById("myBtn")
+ temp1.style.display = "none"
+  var temp = document.getElementById("feed-para")
+  temp.innerHTML="Level your Zombies"
+let level = prompt("Please enter your zombie id:",);
+levelUp(parseInt(level))
 
 });
+feedHumanButton.addEventListener('click', () => {
+  var temp = document.getElementById("feed-para")
+  temp.innerHTML="Feed On Humans"
+  getAllHumans(userAccount)
+.then(displayHumans);
+ var temp1 = document.getElementById("myBtn")
+ temp1.style.display = "block"
+});
+
+
+
+
+
+
+
+
+
+
+
+window.onclick = function(event) {
+  if (event.target == modal) {  
+    modal.style.display = "none";
+  }
+}
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+function processFeeding(){
+  var temp1 =document.getElementById('feed-zombie-id').value
+  var temp2 = document.getElementById('feed-human-id').value
+  var temp3 =document.getElementById('feed-name-id').value
+  feedOnHumans(temp1,temp2,temp3)
+}
+function Attack(){
+  var temp1 =document.getElementById('feed-zombie-id').value
+  var temp2 = document.getElementById('feed-human-id').value
+  console.log(temp1,temp2)
+}
+
+
 </script>
   </body>
   </html>

@@ -16,12 +16,14 @@ contract ZombieFactory is Ownable {
   uint cooldownTime = 1 days;
 
   struct Zombie {
+    uint id;
     string name;
     uint dna;
     uint32 level;
     uint32 readyTime;
     uint16 winCount;
     uint16 lossCount;
+
   }
 
   Zombie[] public zombies;
@@ -29,10 +31,13 @@ contract ZombieFactory is Ownable {
   mapping (uint => address) public zombieToOwner;
   mapping (address => uint) ownerZombieCount;
 
+
   function _createZombie(string _name, uint _dna) internal {
-    uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime), 0, 0)) - 1;
+    uint id = zombies.push(Zombie(0,_name,_dna, 1, uint32(now + cooldownTime), 0, 0)) - 1;
     zombieToOwner[id] = msg.sender;
     ownerZombieCount[msg.sender] = ownerZombieCount[msg.sender].add(1);
+    Zombie storage myZombie = zombies[id];
+    myZombie.id = id;
     emit NewZombie(id, _name, _dna);
   }
 
@@ -42,7 +47,7 @@ contract ZombieFactory is Ownable {
   }
 
   function createRandomZombie(string _name) public {
-    require(ownerZombieCount[msg.sender] == 0);
+    //require(ownerZombieCount[msg.sender] == 0);
     uint randDna = _generateRandomDna(_name);
     randDna = randDna - randDna % 100;
     _createZombie(_name, randDna);
