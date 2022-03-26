@@ -17,8 +17,7 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
-
- require('dotenv').config()
+require('dotenv').config()
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 // const fs = require('fs');
@@ -42,25 +41,15 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-     development: {
-      host: "127.0.0.1",     // Localhost (default: none)
-     port: 7545,            // Standard Ethereum port (default: none)
-     network_id: "5777",       // Any network (default: none)
-    },
-   matic: {
-    provider: () => new HDWalletProvider(process.env.MNEMONIC, 
-    `https://rpc-mumbai.maticvigil.com/v1/0f282106198e11fa1a637f02efc8810cd7a6e77c`),
-    from: "0xE8EF271C20688805D4bA7aE770d1B58281f6084d",
-    network_id:"*",
-    confirmations: 2,
-    timeoutBlocks: 200,
-    skipDryRun: true,
-    networkCheckTimeout: 10000000,
-  },
+    //development: {
+    // host: "127.0.0.1",     // Localhost (default: none)
+   //  port: 7545,            // Standard Ethereum port (default: none)
+   //  network_id: "*",       // Any network (default: none)
+   // },
     // Another network with more advanced options...
     // advanced: {
-    // port: 7545,             // Custom port
-    // network_id: "5777",     // Custom network
+    // port: 8777,             // Custom port
+    // network_id: 1342,       // Custom network
     // gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
     // gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
     // from: <address>,        // Account to send txs from (default: accounts[0])
@@ -76,6 +65,16 @@ module.exports = {
     // timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
     // skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
     // },
+    matic: {
+      provider: () => new HDWalletProvider(process.env.MNEMONIC, 
+      `https://rpc-mumbai.maticvigil.com/v1/0f282106198e11fa1a637f02efc8810cd7a6e77c`),
+      from: "0xE8EF271C20688805D4bA7aE770d1B58281f6084d",
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true,
+      networkCheckTimeout: 100000,
+    },
     // Useful for private networks
     // private: {
     // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
@@ -92,7 +91,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.4.25",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.9",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
@@ -103,7 +102,6 @@ module.exports = {
       // }
     }
   },
-
 
   // Truffle DB is currently disabled by default; to enable it, change enabled:
   // false to enabled: true. The default storage location can also be

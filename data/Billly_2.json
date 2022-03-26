@@ -1,0 +1,18 @@
+{
+    "name": "Crypto Zombie 2",
+    "description": "Crypto Zombie",
+    "image": "https://ipfs.io/ipfs/QmeiTcrf7aUkFXcWF12bHp8vKiaF5HjdBRHJF7UAGaQQJF",
+    "attributes": [{
+        "trait_type": "Lights",
+        "value": true
+      },
+      {
+        "trait_type": "Antenna",
+        "value": false
+      },
+      {
+        "trait_type": "Background",
+        "value": "city"
+      }
+    ]
+}

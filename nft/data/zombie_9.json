@@ -1,0 +1,18 @@
+{
+    "name": "Zombie 9",
+    "description": "Zombie",
+    "image": "https://ipfs.io/ipfs/QmQMkFNHnaAMWM6AWfJERg5ainnxjz7K1qAyHGvFaoo99z",
+    "attributes": [{
+        "trait_type": "DNA",
+        "value": "Robo Human"
+      },
+      {
+        "trait_type": "Hair",
+        "value": true
+      },
+      {
+        "trait_type": "Backgroung",
+        "value": "Pink"
+      }
+    ]
+}

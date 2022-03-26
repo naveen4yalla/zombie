@@ -1,0 +1,18 @@
+{
+    "name": "Zombie 7",
+    "description": "Zombie",
+    "image": "https://ipfs.io/ipfs/QmYJUQRzPZ4XjYPMKTAqDFS4rAMAVFkCiRn8WCcXkoGwy8",
+    "attributes": [{
+        "trait_type": "DNA",
+        "value": "Robo Monkey"
+      },
+      {
+        "trait_type": "Hat",
+        "value": false
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "Laser eyes"
+      }
+    ]
+}

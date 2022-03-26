@@ -1,7 +1,8 @@
 
 //c384def2bccd35bb06d1e19236644d640e86ecac46af8a43adc3c550c5137be2
 //0x2Bfc1118c784fb8e1C50fA628B38005f50eF2815
-const CONTRACT_ADDRESS = "0x2Bfc1118c784fb8e1C50fA628B38005f50eF2815"
+//0x017B449E3D1643Bf5b197DDfF8AAF371FC645D32
+const CONTRACT_ADDRESS = "0x87608417036c29F56970145839A6e4090861c2b9"
 //configuration.networks['5777'].address;
 const CONTRACT_ABI = cryptoZombiesABI;
 
@@ -32,7 +33,7 @@ function displayZombies(ids) {
        getZombieDetails(id)
          .then(function (zombie) {
 
-          var temp = zombie.dna.slice(-1);
+          var temp = zombie.dna[5];
            $("#zombies").append(`<div class="zombie row-image">
            <div class ="column-image">
            <ul>

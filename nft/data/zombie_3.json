@@ -1,0 +1,18 @@
+{
+    "name": "Zombie 3",
+    "description": "Zombie",
+    "image": "https://ipfs.io/ipfs/QmS339UtLBq7rTi1cYUbUGeoRuN1WR5kVsJWhWr6pUWp7F",
+    "attributes": [{
+        "trait_type": "Crown",
+        "value": true
+      },
+      {
+        "trait_type": "Eye patch",
+        "value": true
+      },
+      {
+        "trait_type": "Backgroung",
+        "value": "Blue"
+      }
+    ]
+}
